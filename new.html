@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8" /> 
+<head>   
+
+           <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.0/dist/leaflet.css" /> 
+		   <script src="https://unpkg.com/leaflet@1.0.0/dist/leaflet.js"></script> 
+           <link rel="stylesheet" href="css/styledLayerControl.css" />
+		   <link rel="stylesheet" href="css/styledLayerControl.css" />
+           <script src="src/styledLayerControl.js"></script>
+		   <link rel="stylesheet" href="src/L.Control.Sidebar.css" />
+           <script src="src/L.Control.Sidebar.js"></script>
+		   <script type="text/javascript" src="https://cdn.rawgit.com/GisNorte/proykunsh/fedc7ab5/cuenca.js"></script>
+		   <script type="text/javascript" src="https://cdn.rawgit.com/GisNorte/proykunsh/fedc7ab5/drenes_primarios.js"></script>
+		   <script type="text/javascript" src="https://cdn.rawgit.com/GisNorte/proykunsh/fedc7ab5/drenes_secundarios.js"></script>
+		   <script type="text/javascript" src="https://cdn.rawgit.com/GisNorte/proykunsh/fedc7ab5/poblados.js"></script>
+		   
+		   <script type="text/javascript" src=""></script>
+		   
+ <style>   
+        #map {    
+		width: 100%;   
+		height: 650px;   
+		box-shadow: 5px 5px 5px #888;   
+		}  
+ </style>    
+ 
+ </head>
+  <body>    
+  <div id="sidebar">
+        <h1>leaflet-sidebar</h1>
+
+        <p>A responsive sidebar plugin for for <a href="http://leafletjs.com/">Leaflet</a>, a JS library for interactive maps.</p>
+
+        <p><b>Click on the marker to show the sidebar again when you've closed it.</b></p>
+
+        <p>Other examples:</p>
+
+        <ul>
+            <li><a href="listing-markers.html">listing-markers example</a></li>
+            <li><a href="two-sidebars.html">two-sidebars example</a></li>
+        </ul>
+
+        <p class="lorem">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+
+        <p class="lorem">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+
+        <p class="lorem">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+
+        <p class="lorem">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+    </div>
+	
+    
+	 
+	
+	
+	
+	
+	
+   <div id="map"></div>
+
+   
+   <script>    
+   
+   var map = L.map('map', {  
+                    center: [-18.471500, -70.288602],
+                    zoom: 16
+                    
+                });
+   
+   
+    var Esri_WorldShadedRelief = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}', {
+	attribution: 'Tiles &copy; Esri &mdash; Source: Esri',
+	maxZoom: 13
+    }).addTo(map);
+   
+   var Thunderforest_TransportDark = L.tileLayer('https://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png?apikey=8e238c9c69e54c3989ce7daadd571fb5', {
+	attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+	apikey: '8e238c9c69e54c3989ce7daadd571fb5',
+	maxZoom: 22
+    }).addTo(map);
+    
+ 
+     function popup(feature, layer) {
+                    if (feature.properties && feature.properties.NOMBRE) {
+                        layer.bindPopup(feature.properties.NOMBRE);
+                    }
+                }
+				
+	 function popup2(feature, layer) {
+                    if (feature.properties && feature.properties.TIPO) {
+                        layer.bindPopup(feature.properties.TIPO);
+                    }
+                }			
+ 
+    var style1 = {
+                    'color': "blue",
+                    'weight': 5,
+                    'opacity': 5,
+					'fillOpacity': 0.5
+                };
+	var style2 = {
+                    'color': "blue",
+                    'weight': 1,
+                    'opacity': 1,
+					'fillOpacity': 0.1
+                };		
+ 
+ 
+ 
+    var	cuenca = L.geoJson(cuenca, {
+				  style: style2,
+                  onEachFeature: popup
+              }).addTo(map);
+ 
+ 
+    var	drenes_primarios = L.geoJson(drenes_primarios, {
+				  style: style1,
+                  onEachFeature: popup
+              }).addTo(map); 
+ 
+    var	drenes_secundarios = L.geoJson(drenes_secundarios, {
+				  style: style2,
+                  onEachFeature: popup2
+              }).addTo(map);
+			  
+		  
+			  
+			  
+	var	poblados = L.geoJson(poblados, {
+                  onEachFeature: popup
+              }).addTo(map); 		  
+     
+		 
+		 
+		 var baseMaps = [
+					 {
+						groupName : "Mapas Base",
+						layers    : {
+							"World Shade Relief" :Esri_WorldShadedRelief,
+							"ofdg" :Thunderforest_TransportDark
+                            						
+						}
+					}							
+	            ];	
+		 
+		 var overlays = [
+					 {
+						groupName : "Hidrografía",
+						layers    : { 
+						
+						    "Cuencas Hidrográficas"  : cuenca,
+						    "Drenes Primarios"       : drenes_primarios,
+							"Drenes Secundarios" 	 : drenes_secundarios
+							//"Gobernación Provincial" 	 	: govprov,
+							//"Municipalidad de Arica" 	 	: muniarica,
+							
+						}	
+					}, {
+						groupName : "Demografía",
+						layers    : { 
+							"Poblados" 	 	: poblados
+						}	
+					}
+	             ];
+				
+         //definir las opciones para el styledlayercontrol
+				var options = {
+		                 container_width 	: "300px",
+		                 container_maxHeight : "350px", 
+		                 group_maxHeight     : "80px",
+		                 exclusive       	: false
+	            };
+				
+		//crear el styledlayerControl 
+				var control = L.Control.styledLayerControl(baseMaps,overlays, options);
+	            map.addControl(control);
+
+        //seleccion de capas que van a mostrarse por defecto
+         		control.unSelectGroup( "Hidrografía" );
+				control.unSelectGroup( "Demografía" );
+				L.control.scale().addTo(map);
+		
+		
+		var sidebar = L.control.sidebar('sidebar', {
+            closeButton: true,
+            position: 'left'
+        });
+        map.addControl(sidebar);
+
+        setTimeout(function () {
+            sidebar.show();
+        }, 500);
+
+        var marker = L.marker([-18.48, -70.21]).addTo(map).on('click', function () {
+            sidebar.toggle();
+        });
+
+        map.on('click', function () {
+            sidebar.hide();
+        })
+
+        sidebar.on('show', function () {
+            console.log('Sidebar will be visible.');
+        });
+
+        sidebar.on('shown', function () {
+            console.log('Sidebar is visible.');
+        });
+
+        sidebar.on('hide', function () {
+            console.log('Sidebar will be hidden.');
+        });
+
+        sidebar.on('hidden', function () {
+            console.log('Sidebar is hidden.');
+        });
+
+        L.DomEvent.on(sidebar.getCloseButton(), 'click', function () {
+            console.log('Close button clicked.');
+        });
+ </script>  
+ 
+ 
+ </body>   
+ </html>
